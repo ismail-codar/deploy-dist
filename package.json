@@ -3,9 +3,7 @@
   "version": "1.0.1",
   "description": "Build çıktısını ayrı bir git branch worktree'sine commit'leyip push eden CLI. Kaynak branch commit mesajlarını deploy commit'ine derler.",
   "type": "module",
-  "bin": {
-    "deploy-dist": "bin/deploy-dist.mjs"
-  },
+  "bin": "bin/deploy-dist.mjs",
   "exports": {
     ".": "./lib/deploy.mjs"
   },
