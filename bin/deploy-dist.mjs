@@ -1,7 +1,13 @@
 #!/usr/bin/env node
 import { existsSync, readFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { resolve, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import { DEFAULTS, deploy, DeployError } from "../lib/deploy.mjs";
+
+// Aracın kendi package.json sürümü (cwd'deki repo'nun değil).
+const VERSION = JSON.parse(
+  readFileSync(resolve(dirname(fileURLToPath(import.meta.url)), "../package.json"), "utf8")
+).version;
 
 const HELP = `deploy-dist — build çıktısını ayrı bir git branch worktree'sine deploy eder.
 
@@ -24,6 +30,7 @@ Seçenekler:
   --cwd <path>          Kaynak repo kökü (varsayılan: cwd)
   --no-push             Commit at ama push etme
   --config <path>       Config JSON dosyası (varsayılan: <cwd>/.deploy-dist.json)
+  -v, --version         Sürümü göster
   -h, --help            Bu yardım
 
 Config çözümleme (artan öncelik):
@@ -48,6 +55,10 @@ function parseArgs(argv) {
     const a = argv[i];
     const next = () => argv[++i];
     switch (a) {
+      case "-v":
+      case "--version":
+        out.version = true;
+        break;
       case "-h":
       case "--help":
         out.help = true;
@@ -93,6 +104,10 @@ function readJson(path) {
 }
 
 const cli = parseArgs(process.argv.slice(2));
+if (cli.version) {
+  console.log(VERSION);
+  process.exit(0);
+}
 if (cli.help) {
   console.log(HELP);
   process.exit(0);
