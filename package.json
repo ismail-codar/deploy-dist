@@ -1,6 +1,6 @@
 {
   "name": "@icodar/deploy-dist",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Build çıktısını ayrı bir git branch worktree'sine commit'leyip push eden CLI. Kaynak branch commit mesajlarını deploy commit'ine derler.",
   "type": "module",
   "bin": "bin/deploy-dist.mjs",
